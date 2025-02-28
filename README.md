@@ -1,0 +1,2 @@
+# blitztype
+ typing game
