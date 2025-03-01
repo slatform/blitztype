@@ -2,43 +2,39 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Orbitron', sans-serif; /* Sci-fi font */
 }
 
 body {
+  height: 100vh;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a23, #1e3c72); /* Darker space vibe */
-  color: white;
-  overflow: hidden; /* Prevent scrollbars during gameplay */
+  background: radial-gradient(circle at center, #1e1e2f 0%, #0a0a23 100%); /* Deep space gradient */
+  overflow: hidden;
 }
 
 #game-container {
-  background: rgba(255, 255, 255, 0.05); /* More transparent for space feel */
-  border-radius: 20px;
-  padding: 40px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(10px);
-  text-align: center;
-  width: 90%;
-  max-width: 800px; /* Wider for word movement */
+  width: 100%;
+  height: 100%;
   position: relative;
-  height: 500px; /* Fixed height for game area */
+  background: rgba(10, 10, 35, 0.9); /* Dark translucent overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .screen {
-  transition: opacity 0.5s ease;
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
+  position: absolute;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  transition: opacity 0.5s ease;
+  color: #fff;
 }
 
 .hidden {
@@ -47,97 +43,133 @@ body {
 }
 
 h1 {
-  font-size: 2.5em;
+  font-size: 3rem;
+  text-shadow: 0 0 15px #00d4ff, 0 0 5px #00b4cc;
   margin-bottom: 20px;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
 }
 
 p {
-  font-size: 1.2em;
+  font-size: 1.5rem;
   margin-bottom: 20px;
 }
 
 button {
-  background: #00d4ff;
+  background: linear-gradient(45deg, #00d4ff, #00b4cc);
   border: none;
-  padding: 15px 30px;
-  font-size: 1.2em;
+  padding: 15px 40px;
+  font-size: 1.5rem;
   color: white;
   border-radius: 10px;
   cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  box-shadow: 0 0 10px #00d4ff;
+  transition: transform 0.2s, box-shadow 0.3s;
 }
 
 button:hover {
-  background: #00b4cc;
-  transform: scale(1.05);
+  transform: scale(1.1);
+  box-shadow: 0 0 20px #00d4ff;
 }
 
 #game-screen {
-  background: url('https://www.transparenttextures.com/patterns/stardust.png'); /* Space texture */
-  background-size: cover;
+  background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
+  background-size: 200px 200px;
+}
+
+.stats {
+  position: absolute;
+  top: 20px;
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+  text-shadow: 0 0 5px #ffcc00;
+}
+
+.stats span {
+  margin: 0 20px;
 }
 
 #timer, #lives, #score {
-  font-size: 1.5em;
-  margin: 10px 0;
-  color: #ffcc00; /* Yellow for sci-fi vibe */
+  color: #ffcc00;
+  font-weight: 700;
+}
+
+#game-area {
+  width: 100%;
+  height: 60%;
+  position: relative;
+  overflow: hidden;
 }
 
 #word-display {
   position: absolute;
-  font-size: 1.8em;
-  padding: 10px;
-  background: rgba(255, 50, 50, 0.3); /* Red glow for "threat" */
+  font-size: 2rem;
+  padding: 10px 20px;
+  background: rgba(255, 50, 50, 0.5);
   border-radius: 10px;
   text-shadow: 0 0 10px #ff3333;
-  left: 100%; /* Start off-screen */
-  transition: left 5s linear; /* Controlled by JS */
-  pointer-events: none; /* Prevent clicking words */
+  left: 100%;
+  top: 20%;
+  transition: left 5s linear;
+  white-space: nowrap;
 }
 
 #input-box {
-  width: 100%;
-  max-width: 400px;
+  width: 80%;
+  max-width: 600px;
   padding: 15px;
-  font-size: 1.2em;
+  font-size: 1.5rem;
   border: none;
   border-radius: 10px;
-  outline: none;
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  outline: none;
   position: absolute;
   bottom: 40px;
+  transition: box-shadow 0.3s;
+}
+
+#input-box:focus {
+  box-shadow: 0 0 20px #00d4ff;
 }
 
 #progress-bar {
   width: 80%;
-  height: 10px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 5px;
-  margin: 20px 0;
+  height: 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  position: absolute;
+  top: 70px;
   overflow: hidden;
 }
 
 #progress {
+  width: 100%;
   height: 100%;
-  background: #00d4ff;
+  background: linear-gradient(90deg, #00d4ff, #00b4cc);
   transition: width 0.1s linear;
 }
 
 #wpm, #chars, #score-final {
-  font-weight: bold;
   color: #ffcc00;
+  font-weight: 700;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 500px) {
-  #game-container {
-    padding: 20px;
-    height: 400px;
-  }
-  h1 { font-size: 2em; }
-  button { padding: 10px 20px; font-size: 1em; }
-  #input-box { font-size: 1em; padding: 10px; }
-  #word-display { font-size: 1.5em; }
+/* Responsive Design */
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  p { font-size: 1.2rem; }
+  button { padding: 10px 30px; font-size: 1.2rem; }
+  .stats { font-size: 1.2rem; }
+  #word-display { font-size: 1.5rem; }
+  #input-box { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.5rem; }
+  p { font-size: 1rem; }
+  button { padding: 8px 20px; font-size: 1rem; }
+  .stats { font-size: 1rem; }
+  #word-display { font-size: 1.2rem; }
+  #input-box { font-size: 1rem; }
 }

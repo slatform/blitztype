@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Galactic Typing Defense</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,12 +16,16 @@
     </div>
 
     <div id="game-screen" class="screen hidden">
-      <div>Time: <span id="timer">15</span></div>
-      <div>Lives: <span id="lives">3</span></div>
-      <div>Score: <span id="score">0</span></div>
+      <div class="stats">
+        <span>Time: <span id="timer">15</span></span>
+        <span>Lives: <span id="lives">3</span></span>
+        <span>Score: <span id="score">0</span></span>
+      </div>
       <div id="progress-bar"><div id="progress"></div></div>
-      <div id="word-display"></div>
-      <input type="text" id="input-box" autocomplete="off">
+      <div id="game-area">
+        <div id="word-display"></div>
+      </div>
+      <input type="text" id="input-box" autocomplete="off" placeholder="Type here...">
     </div>
 
     <div id="result-screen" class="screen hidden">
@@ -32,7 +36,6 @@
       <button id="restart-button">Restart Mission</button>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>

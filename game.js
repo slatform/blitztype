@@ -7,14 +7,14 @@ const timerDisplay = document.getElementById('timer');
 const wordDisplay = document.getElementById('word-display');
 const inputBox = document.getElementById('input-box');
 const progress = document.getElementById('progress');
-const wpmDisplay = document.getElementById('wpm');
-const charsDisplay = document.getElementById('chars');
 const livesDisplay = document.getElementById('lives');
 const scoreDisplay = document.getElementById('score');
+const wpmDisplay = document.getElementById('wpm');
+const charsDisplay = document.getElementById('chars');
 const scoreFinalDisplay = document.getElementById('score-final');
 
 const words = [
-  'space', 'cosmic', 'galaxy', 'star', 'planet', 'orbit', 'moon', 'nebula', 
+  'space', 'cosmic', 'galaxy', 'star', 'planet', 'orbit', 'moon', 'nebula',
   'asteroid', 'comet', 'meteor', 'gravity', 'rocket', 'launch', 'explore'
 ];
 
@@ -58,11 +58,11 @@ function spawnWord() {
   if (!gameRunning) return;
   currentWord = words[Math.floor(Math.random() * words.length)];
   wordDisplay.textContent = currentWord;
-  wordDisplay.style.left = '100%'; // Start off-screen right
-  wordDisplay.style.top = `${Math.random() * 70 + 10}%`; // Random vertical position
+  wordDisplay.style.left = '100%';
+  wordDisplay.style.top = `${Math.random() * 50 + 10}%`; // Random height in game area
   wordDisplay.style.transition = `left ${wordSpeed}s linear`;
-  setTimeout(() => (wordDisplay.style.left = '-20%'), 50); // Move to left
-  setTimeout(checkMiss, wordSpeed * 1000); // Check if missed
+  setTimeout(() => (wordDisplay.style.left = '-20%'), 10);
+  setTimeout(checkMiss, wordSpeed * 1000);
 }
 
 function checkMiss() {
@@ -94,12 +94,15 @@ inputBox.addEventListener('input', (e) => {
   if (typed === currentWord) {
     totalCharsTyped += currentWord.length + 1;
     streak++;
-    score += 10 * (streak > 1 ? Math.min(streak, 5) : 1); // Multiplier up to 5x
+    score += 10 * (streak > 1 ? Math.min(streak, 5) : 1);
     scoreDisplay.textContent = score;
     inputBox.value = '';
     wordDisplay.style.transition = 'opacity 0.2s';
-    wordDisplay.style.opacity = 0; // "Explosion" effect
-    setTimeout(spawnWord, 200);
+    wordDisplay.style.opacity = 0;
+    setTimeout(() => {
+      wordDisplay.style.opacity = 1;
+      spawnWord();
+    }, 200);
   }
 });
 
