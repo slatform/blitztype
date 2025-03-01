@@ -4,28 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Typing Test</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="game-container">
-    <div id="start-screen" class="screen">
-      <h1>Typing Test</h1>
-      <p>Start typing to begin</p>
+  <div id="app">
+    <div id="stats">
+      <span>Time: <span id="timer">30</span>s</span>
+      <span>WPM: <span id="wpm">0</span></span>
+      <span>Accuracy: <span id="accuracy">100%</span></span>
     </div>
-
-    <div id="game-screen" class="screen hidden">
-      <div id="stats">
-        <span>Time: <span id="timer">30</span>s</span>
-        <span>WPM: <span id="wpm">0</span></span>
-        <span>Accuracy: <span id="accuracy">100%</span></span>
-      </div>
-      <div id="word-container"></div>
-      <input type="text" id="input-box" autocomplete="off" placeholder="Type here...">
-    </div>
-
-    <div id="result-screen" class="screen hidden">
-      <h1>Test Complete</h1>
-      <p>WPM: <span id="wpm-final">0</span></p>
-      <p>Accuracy: <span id="accuracy-final">100%</span></p>
+    <div id="words"></div>
+    <input type="text" id="input" autocomplete="off" placeholder="Type here to start">
+    <div id="results" class="hidden">
+      <h2>Results</h2>
+      <p>WPM: <span id="wpm-result">0</span></p>
+      <p>Accuracy: <span id="accuracy-result">100%</span></p>
       <p>Characters: <span id="chars">0</span></p>
+      <button id="restart">Restart</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
