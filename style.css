@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Orbitron', sans-serif; /* Sci-fi font */
+  font-family: 'Roboto Mono', monospace;
 }
 
 body {
@@ -11,165 +11,135 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: radial-gradient(circle at center, #1e1e2f 0%, #0a0a23 100%); /* Deep space gradient */
+  background: #1a1a1a; /* Dark background like Monkeytype */
+  color: #fff;
   overflow: hidden;
 }
 
 #game-container {
   width: 100%;
-  height: 100%;
-  position: relative;
-  background: rgba(10, 10, 35, 0.9); /* Dark translucent overlay */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 800px;
+  padding: 20px;
+  text-align: center;
 }
 
 .screen {
   width: 100%;
-  height: 100%;
-  position: absolute;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  transition: opacity 0.5s ease;
-  color: #fff;
+  transition: opacity 0.3s ease;
 }
 
 .hidden {
   opacity: 0;
   pointer-events: none;
+  position: absolute;
 }
 
 h1 {
-  font-size: 3rem;
-  text-shadow: 0 0 15px #00d4ff, 0 0 5px #00b4cc;
+  font-size: 2.5rem;
   margin-bottom: 20px;
+  color: #e0e0e0;
 }
 
 p {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  color: #a0a0a0;
   margin-bottom: 20px;
 }
 
-button {
-  background: linear-gradient(45deg, #00d4ff, #00b4cc);
-  border: none;
-  padding: 15px 40px;
-  font-size: 1.5rem;
-  color: white;
-  border-radius: 10px;
-  cursor: pointer;
-  box-shadow: 0 0 10px #00d4ff;
-  transition: transform 0.2s, box-shadow 0.3s;
-}
-
-button:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px #00d4ff;
-}
-
-#game-screen {
-  background: url('https://www.transparenttextures.com/patterns/stardust.png') repeat;
-  background-size: 200px 200px;
-}
-
-.stats {
-  position: absolute;
-  top: 20px;
-  width: 80%;
+#stats {
   display: flex;
   justify-content: space-between;
-  font-size: 1.5rem;
-  text-shadow: 0 0 5px #ffcc00;
+  width: 100%;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  color: #a0a0a0;
 }
 
-.stats span {
+#stats span {
   margin: 0 20px;
 }
 
-#timer, #lives, #score {
-  color: #ffcc00;
-  font-weight: 700;
+#timer, #wpm, #accuracy {
+  color: #00d4ff;
+  font-weight: 500;
 }
 
-#game-area {
+#word-container {
   width: 100%;
-  height: 60%;
-  position: relative;
-  overflow: hidden;
+  min-height: 100px;
+  padding: 20px 0;
+  font-size: 1.5rem;
+  color: #e0e0e0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  user-select: none;
 }
 
-#word-display {
-  position: absolute;
-  font-size: 2rem;
-  padding: 10px 20px;
-  background: rgba(255, 50, 50, 0.5);
-  border-radius: 10px;
-  text-shadow: 0 0 10px #ff3333;
-  left: 100%;
-  top: 20%;
-  transition: left 5s linear;
-  white-space: nowrap;
+.word {
+  padding: 5px;
+  transition: color 0.1s;
+}
+
+.word.current {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.word.correct {
+  color: #00d4ff;
+}
+
+.word.incorrect {
+  color: #ff5555;
 }
 
 #input-box {
-  width: 80%;
+  width: 100%;
   max-width: 600px;
   padding: 15px;
   font-size: 1.5rem;
   border: none;
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  border-bottom: 2px solid #00d4ff;
+  background: transparent;
+  color: #fff;
   outline: none;
-  position: absolute;
-  bottom: 40px;
-  transition: box-shadow 0.3s;
+  text-align: center;
 }
 
 #input-box:focus {
-  box-shadow: 0 0 20px #00d4ff;
+  border-color: #00b4cc;
 }
 
-#progress-bar {
-  width: 80%;
-  height: 15px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  position: absolute;
-  top: 70px;
-  overflow: hidden;
+button {
+  background: #00d4ff;
+  border: none;
+  padding: 10px 30px;
+  font-size: 1.2rem;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-#progress {
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, #00d4ff, #00b4cc);
-  transition: width 0.1s linear;
+button:hover {
+  background: #00b4cc;
 }
 
-#wpm, #chars, #score-final {
-  color: #ffcc00;
-  font-weight: 700;
+#wpm-final, #accuracy-final, #chars {
+  color: #00d4ff;
+  font-weight: 500;
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   h1 { font-size: 2rem; }
-  p { font-size: 1.2rem; }
-  button { padding: 10px 30px; font-size: 1.2rem; }
-  .stats { font-size: 1.2rem; }
-  #word-display { font-size: 1.5rem; }
-  #input-box { font-size: 1.2rem; }
-}
-
-@media (max-width: 480px) {
-  h1 { font-size: 1.5rem; }
   p { font-size: 1rem; }
-  button { padding: 8px 20px; font-size: 1rem; }
-  .stats { font-size: 1rem; }
-  #word-display { font-size: 1.2rem; }
-  #input-box { font-size: 1rem; }
+  #stats { font-size: 1rem; }
+  #word-container { font-size: 1.2rem; }
+  #input-box { font-size: 1.2rem; }
 }

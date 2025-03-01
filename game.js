@@ -1,110 +1,84 @@
 const startScreen = document.getElementById('start-screen');
 const gameScreen = document.getElementById('game-screen');
 const resultScreen = document.getElementById('result-screen');
-const startButton = document.getElementById('start-button');
 const restartButton = document.getElementById('restart-button');
 const timerDisplay = document.getElementById('timer');
-const wordDisplay = document.getElementById('word-display');
+const wordContainer = document.getElementById('word-container');
 const inputBox = document.getElementById('input-box');
-const progress = document.getElementById('progress');
-const livesDisplay = document.getElementById('lives');
-const scoreDisplay = document.getElementById('score');
 const wpmDisplay = document.getElementById('wpm');
+const accuracyDisplay = document.getElementById('accuracy');
+const wpmFinalDisplay = document.getElementById('wpm-final');
+const accuracyFinalDisplay = document.getElementById('accuracy-final');
 const charsDisplay = document.getElementById('chars');
-const scoreFinalDisplay = document.getElementById('score-final');
 
 const words = [
   'space', 'cosmic', 'galaxy', 'star', 'planet', 'orbit', 'moon', 'nebula',
-  'asteroid', 'comet', 'meteor', 'gravity', 'rocket', 'launch', 'explore'
+  'asteroid', 'comet', 'meteor', 'gravity', 'rocket', 'launch', 'explore',
+  'sun', 'earth', 'mars', 'venus', 'jupiter', 'saturn', 'uranus', 'neptune'
 ];
 
-let currentWord = '';
-let timeLeft = 15;
+let wordList = [];
+let currentWordIndex = 0;
+let timeLeft = 30;
 let totalCharsTyped = 0;
+let correctChars = 0;
 let gameRunning = false;
 let interval;
-let lives = 3;
-let score = 0;
-let streak = 0;
-let wordSpeed = 5; // Seconds to cross screen
 
-startButton.addEventListener('click', startGame);
-restartButton.addEventListener('click', startGame);
+function generateWords(count) {
+  wordList = [];
+  for (let i = 0; i < count; i++) {
+    wordList.push(words[Math.floor(Math.random() * words.length)]);
+  }
+  displayWords();
+}
+
+function displayWords() {
+  wordContainer.innerHTML = '';
+  wordList.forEach((word, index) => {
+    const span = document.createElement('span');
+    span.classList.add('word');
+    if (index === currentWordIndex) span.classList.add('current');
+    span.textContent = word;
+    wordContainer.appendChild(span);
+  });
+}
 
 function startGame() {
   startScreen.classList.add('hidden');
   gameScreen.classList.remove('hidden');
   resultScreen.classList.add('hidden');
 
-  timeLeft = 15;
+  currentWordIndex = 0;
+  timeLeft = 30;
   totalCharsTyped = 0;
-  lives = 3;
-  score = 0;
-  streak = 0;
+  correctChars = 0;
   gameRunning = true;
   inputBox.value = '';
   inputBox.focus();
-  livesDisplay.textContent = lives;
-  scoreDisplay.textContent = score;
   timerDisplay.textContent = timeLeft;
-  progress.style.width = '100%';
+  wpmDisplay.textContent = '0';
+  accuracyDisplay.textContent = '100%';
 
+  generateWords(50); // Initial batch of words
   clearInterval(interval);
   interval = setInterval(updateTimer, 1000);
-  spawnWord();
-}
-
-function spawnWord() {
-  if (!gameRunning) return;
-  currentWord = words[Math.floor(Math.random() * words.length)];
-  wordDisplay.textContent = currentWord;
-  wordDisplay.style.left = '100%';
-  wordDisplay.style.top = `${Math.random() * 50 + 10}%`; // Random height in game area
-  wordDisplay.style.transition = `left ${wordSpeed}s linear`;
-  setTimeout(() => (wordDisplay.style.left = '-20%'), 10);
-  setTimeout(checkMiss, wordSpeed * 1000);
-}
-
-function checkMiss() {
-  if (gameRunning && wordDisplay.textContent === currentWord && inputBox.value !== currentWord) {
-    lives--;
-    livesDisplay.textContent = lives;
-    if (lives <= 0) {
-      endGame();
-    } else {
-      spawnWord();
-    }
-  }
 }
 
 function updateTimer() {
   timeLeft--;
   timerDisplay.textContent = timeLeft;
-  progress.style.width = `${(timeLeft / 15) * 100}%`;
-
-  if (timeLeft <= 0) {
-    endGame();
-  }
+  updateStats();
+  if (timeLeft <= 0) endGame();
 }
 
-inputBox.addEventListener('input', (e) => {
-  if (!gameRunning) return;
-
-  const typed = e.target.value.trim();
-  if (typed === currentWord) {
-    totalCharsTyped += currentWord.length + 1;
-    streak++;
-    score += 10 * (streak > 1 ? Math.min(streak, 5) : 1);
-    scoreDisplay.textContent = score;
-    inputBox.value = '';
-    wordDisplay.style.transition = 'opacity 0.2s';
-    wordDisplay.style.opacity = 0;
-    setTimeout(() => {
-      wordDisplay.style.opacity = 1;
-      spawnWord();
-    }, 200);
-  }
-});
+function updateStats() {
+  const elapsedTime = (30 - timeLeft) / 60; // Minutes elapsed
+  const wpm = elapsedTime > 0 ? Math.round((correctChars / 5) / elapsedTime) : 0;
+  const accuracy = totalCharsTyped > 0 ? Math.round((correctChars / totalCharsTyped) * 100) : 100;
+  wpmDisplay.textContent = wpm;
+  accuracyDisplay.textContent = `${accuracy}%`;
+}
 
 function endGame() {
   gameRunning = false;
@@ -112,8 +86,35 @@ function endGame() {
   gameScreen.classList.add('hidden');
   resultScreen.classList.remove('hidden');
 
-  const wpm = Math.round((totalCharsTyped / 5) / 0.25);
-  wpmDisplay.textContent = wpm;
+  const elapsedTime = 30 / 60; // Total test time in minutes
+  const wpm = Math.round((correctChars / 5) / elapsedTime);
+  const accuracy = Math.round((correctChars / totalCharsTyped) * 100) || 100;
+  wpmFinalDisplay.textContent = wpm;
+  accuracyFinalDisplay.textContent = `${accuracy}%`;
   charsDisplay.textContent = totalCharsTyped;
-  scoreFinalDisplay.textContent = score;
 }
+
+inputBox.addEventListener('input', (e) => {
+  if (!gameRunning && e.target.value.trim()) startGame();
+  if (!gameRunning) return;
+
+  const typed = e.target.value.trim();
+  const currentWord = wordList[currentWordIndex];
+
+  if (e.data === ' ' && typed) {
+    totalCharsTyped += typed.length;
+    if (typed === currentWord) {
+      correctChars += currentWord.length;
+      wordContainer.children[currentWordIndex].classList.add('correct');
+    } else {
+      wordContainer.children[currentWordIndex].classList.add('incorrect');
+    }
+    currentWordIndex++;
+    inputBox.value = '';
+    if (currentWordIndex >= wordList.length - 10) generateWords(50); // Refresh words
+    displayWords();
+    updateStats();
+  }
+});
+
+restartButton.addEventListener('click', startGame);

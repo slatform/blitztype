@@ -3,39 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Galactic Typing Defense</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+  <title>Typing Test</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="game-container">
     <div id="start-screen" class="screen">
-      <h1>Galactic Typing Defense</h1>
-      <p>Type to destroy incoming threats!</p>
-      <button id="start-button">Start Mission</button>
+      <h1>Typing Test</h1>
+      <p>Start typing to begin</p>
     </div>
 
     <div id="game-screen" class="screen hidden">
-      <div class="stats">
-        <span>Time: <span id="timer">15</span></span>
-        <span>Lives: <span id="lives">3</span></span>
-        <span>Score: <span id="score">0</span></span>
+      <div id="stats">
+        <span>Time: <span id="timer">30</span>s</span>
+        <span>WPM: <span id="wpm">0</span></span>
+        <span>Accuracy: <span id="accuracy">100%</span></span>
       </div>
-      <div id="progress-bar"><div id="progress"></div></div>
-      <div id="game-area">
-        <div id="word-display"></div>
-      </div>
+      <div id="word-container"></div>
       <input type="text" id="input-box" autocomplete="off" placeholder="Type here...">
     </div>
 
     <div id="result-screen" class="screen hidden">
-      <h1>Mission Complete</h1>
-      <p>WPM: <span id="wpm">0</span></p>
-      <p>Score: <span id="score-final">0</span></p>
-      <p>Characters Typed: <span id="chars">0</span></p>
-      <button id="restart-button">Restart Mission</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
-</body>
-</html>
+      <h1>Test Complete</h1>
+      <p>WPM: <span id="wpm-final">0</span></p>
+      <p>Accuracy: <span id="accuracy-final">100%</span></p>
+      <p>Characters: <span id="chars">0</span></p>
