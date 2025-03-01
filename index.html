@@ -3,32 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Type Blitz</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>Galactic Typing Defense</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="game-container">
     <div id="start-screen" class="screen">
-      <h1>Type Blitz</h1>
-      <p>Test your typing speed in 15 seconds!</p>
-      <button id="start-button">Start</button>
+      <h1>Galactic Typing Defense</h1>
+      <p>Type to destroy incoming threats!</p>
+      <button id="start-button">Start Mission</button>
     </div>
+
     <div id="game-screen" class="screen hidden">
-      <div id="timer">15</div>
+      <div>Time: <span id="timer">15</span></div>
+      <div>Lives: <span id="lives">3</span></div>
+      <div>Score: <span id="score">0</span></div>
+      <div id="progress-bar"><div id="progress"></div></div>
       <div id="word-display"></div>
-      <input type="text" id="input-box" autocomplete="off" autofocus>
-      <div id="progress-bar">
-        <div id="progress"></div>
-      </div>
+      <input type="text" id="input-box" autocomplete="off">
     </div>
+
     <div id="result-screen" class="screen hidden">
-      <h1>Results</h1>
-      <p>Your WPM: <span id="wpm">0</span></p>
+      <h1>Mission Complete</h1>
+      <p>WPM: <span id="wpm">0</span></p>
+      <p>Score: <span id="score-final">0</span></p>
       <p>Characters Typed: <span id="chars">0</span></p>
-      <button id="restart-button">Try Again</button>
+      <button id="restart-button">Restart Mission</button>
     </div>
   </div>
-  <script src="game.js"></script>
+
+  <script src="script.js"></script>
 </body>
 </html>
