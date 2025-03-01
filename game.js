@@ -1,8 +1,22 @@
-const words = [
-  'the', 'be', 'to', 'of', 'and', 'in', 'that', 'have', 'it', 'for',
-  'not', 'on', 'with', 'he', 'as', 'you', 'do', 'at', 'this', 'but',
-  'his', 'by', 'from', 'they', 'we', 'say', 'her', 'she', 'or', 'an',
-  'will', 'my', 'one', 'all', 'would', 'there', 'their', 'what', 'so'
+const dictionary = [
+  'about', 'after', 'again', 'air', 'all', 'along', 'also', 'an', 'and', 'another',
+  'any', 'around', 'as', 'at', 'away', 'back', 'be', 'because', 'been', 'before',
+  'below', 'between', 'both', 'but', 'by', 'came', 'can', 'come', 'could', 'day',
+  'did', 'do', 'down', 'each', 'end', 'even', 'every', 'few', 'find', 'first',
+  'from', 'get', 'give', 'go', 'good', 'great', 'had', 'has', 'have', 'he', 'her',
+  'here', 'him', 'his', 'home', 'house', 'how', 'if', 'in', 'into', 'is', 'it',
+  'just', 'know', 'large', 'last', 'left', 'like', 'line', 'little', 'long', 'look',
+  'made', 'make', 'man', 'many', 'may', 'me', 'men', 'might', 'more', 'most',
+  'must', 'my', 'never', 'new', 'no', 'not', 'now', 'number', 'of', 'off', 'on',
+  'one', 'only', 'or', 'other', 'our', 'out', 'over', 'own', 'part', 'people',
+  'place', 'put', 'right', 'said', 'same', 'saw', 'say', 'see', 'she', 'should',
+  'show', 'small', 'so', 'some', 'something', 'sound', 'still', 'such', 'take',
+  'tell', 'than', 'that', 'the', 'them', 'then', 'there', 'these', 'they', 'thing',
+  'think', 'this', 'those', 'thought', 'three', 'through', 'time', 'to', 'together',
+  'too', 'two', 'under', 'up', 'us', 'use', 'very', 'want', 'was', 'water', 'way',
+  'we', 'well', 'went', 'were', 'what', 'when', 'where', 'which', 'while', 'who',
+  'why', 'will', 'with', 'word', 'work', 'world', 'would', 'write', 'year', 'you',
+  'your'
 ];
 
 let wordList = [];
@@ -25,11 +39,18 @@ const accuracyResult = document.getElementById('accuracy-result');
 const charsDisplay = document.getElementById('chars');
 const restartButton = document.getElementById('restart');
 
-function initWords(count) {
-  wordList = [];
-  for (let i = 0; i < count; i++) {
-    wordList.push(words[Math.floor(Math.random() * words.length)]);
+function shuffleArray(array) {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
   }
+  return shuffled;
+}
+
+function generateWords(count) {
+  const shuffledDictionary = shuffleArray(dictionary);
+  wordList = shuffledDictionary.slice(0, count);
   renderWords();
 }
 
@@ -60,7 +81,7 @@ function startGame() {
   input.value = '';
   input.focus();
   results.classList.add('hidden');
-  initWords(50);
+  generateWords(100);
   clearInterval(timer);
   timer = setInterval(updateTimer, 1000);
 }
@@ -113,7 +134,7 @@ input.addEventListener('input', (e) => {
     }
     currentIndex++;
     input.value = '';
-    if (currentIndex > wordList.length - 20) initWords(50);
+    if (currentIndex > wordList.length - 20) generateWords(100);
     renderWords();
     updateStats();
   }
